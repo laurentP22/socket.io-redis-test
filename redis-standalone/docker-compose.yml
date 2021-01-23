@@ -1,0 +1,18 @@
+#####################################################
+### A simple docker-compose to create a redis testing environment.
+### 4 containers :
+### - 1 redis used in standalone
+### - 3 redis used to build the cluster
+#####################################################
+version: "3.5"
+services:
+############### REDIS STANDALONE #########################
+  redis-1:
+    container_name: redis-1
+    image: redis:latest
+    networks:
+      - redis-standalone-env   
+networks:
+  redis-standalone-env:
+    name: redis-standalone-env
+    driver: bridge

@@ -1,0 +1,84 @@
+Config :
+3 nodes pub to redis-1
+0 nodes pub to redis-2
+0 nodes pub to redis-3
+
+node-2     | Receive event : get_all_rooms 
+node-2     | NUMSUB : 0
+node-2     | Error: timeout reached while waiting for allRooms response
+node-2     |     at Timeout._onTimeout (/app/socket.io-redis/index.js:546:48)
+node-2     |     at listOnTimeout (internal/timers.js:531:17)
+node-2     |     at processTimers (internal/timers.js:475:7)
+node-2     | [ '/admin#uJFOAsn4D1VOoffZAAAA', 'room1' ]
+
+node-2     | Receive event : get_all_rooms 
+node-2     | NUMSUB : 3
+node-2     | [ '/admin#uJFOAsn4D1VOoffZAAAA', 'room1' ]
+
+node-2     | Receive event : get_all_rooms 
+node-2     | NUMSUB : 0
+node-2     | Error: timeout reached while waiting for allRooms response
+node-2     |     at Timeout._onTimeout (/app/socket.io-redis/index.js:546:48)
+node-2     |     at listOnTimeout (internal/timers.js:531:17)
+node-2     |     at processTimers (internal/timers.js:475:7)
+node-2     | [ '/admin#uJFOAsn4D1VOoffZAAAA', 'room1' ]
+
+node-2     | Receive event : get_all_rooms 
+node-2     | NUMSUB : 0
+node-2     | Error: timeout reached while waiting for allRooms response
+node-2     |     at Timeout._onTimeout (/app/socket.io-redis/index.js:546:48)
+node-2     |     at listOnTimeout (internal/timers.js:531:17)
+node-2     |     at processTimers (internal/timers.js:475:7)
+node-2     | [ '/admin#uJFOAsn4D1VOoffZAAAA', 'room1' ]
+
+node-2     | Receive event : get_all_rooms 
+node-2     | NUMSUB : 0
+node-2     | Error: timeout reached while waiting for allRooms response
+node-2     |     at Timeout._onTimeout (/app/socket.io-redis/index.js:546:48)
+node-2     |     at listOnTimeout (internal/timers.js:531:17)
+node-2     |     at processTimers (internal/timers.js:475:7)
+node-2     | [ '/admin#uJFOAsn4D1VOoffZAAAA', 'room1' ]
+
+
+
+ => If the numsub happens on redis-1 it's ok, else => timeout !
+
+
+Config :
+0 nodes pub to redis-1
+1 nodes pub to redis-2
+2 nodes pub to redis-3
+
+-> numsub redis-1 :
+node-2     | Receive event : get_all_rooms 
+node-2     | NUMSUB : 0
+node-2     | Error: timeout reached while waiting for allRooms response
+node-2     |     at Timeout._onTimeout (/app/socket.io-redis/index.js:546:48)
+node-2     |     at listOnTimeout (internal/timers.js:531:17)
+node-2     |     at processTimers (internal/timers.js:475:7)
+node-2     | [ '/admin#Q1aGVLTSPnAavLcEAAAA', 'room1' ]
+
+-> numsub redis-2 :
+node-2     | Receive event : get_all_rooms 
+node-2     | NUMSUB : 1
+node-2     | []
+
+
+
+-> numsub redis-3 :
+node-2     | Receive event : get_all_rooms 
+node-2     | NUMSUB : 2
+node-2     | []
+
+-> numsub redis-3 
+node-2     | Receive event : get_all_rooms 
+node-2     | NUMSUB : 2
+node-2     | [ '/admin#Q1aGVLTSPnAavLcEAAAA', 'room1' ]
+
+--> sometimes it's ok even if the numbsub is false
+--> It takes the 2 firts to reply ! So by luck it can be good !
+
+1569088149.532803 [0 192.168.96.7:44426] "pubsub" "numsub" "socket.io-request#/admin#"
+1569088149.533499 [0 192.168.96.7:44426] "publish" "socket.io-request#/admin#" "{\"requestid\":\"CruwvB\",\"type\":2}"
+1569088149.534067 [0 192.168.96.7:44426] "publish" "socket.io-response#/admin#" "{\"requestid\":\"CruwvB\",\"rooms\":[\"/admin#Q1aGVLTSPnAavLcEAAAA\",\"room1\"]}"
+1569088149.535536 [0 192.168.96.8:50082] "publish" "socket.io-response#/admin#" "{\"requestid\":\"CruwvB\",\"rooms\":[]}"

@@ -1,0 +1,76 @@
+#####################################################
+#   Create 
+#
+#####################################################
+version: "3.5"
+services:
+############## NGINX #####################
+  nginx:
+    restart: 'always'
+    container_name: nginx
+    build: ./nginx
+    ports:
+      - "3050:80"
+    networks:
+      - nginx            
+############### VUE-App #####################
+  vue-app:
+    container_name: vue-app
+    build:
+      dockerfile: Dockerfile
+      context: ./vue-app
+    volumes:
+      - ./vue-app/app:/app
+      - /app/node_modules    
+    stdin_open: true
+    tty: true      
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - nginx      
+############### NODE-SOCKET #####################
+  node-1:
+    container_name: node-1 
+    build:
+      dockerfile: Dockerfile
+      context: ./node-socket
+    volumes:
+      - ./node-socket/app:/app
+      - /app/node_modules
+    ports:
+      - 9229:9229         # use to debug
+    networks:
+      - redis-cluster-env # redis-sentinel-env # redis-standalone-env
+      - nginx
+############### NODE-SOCKET #####################
+  node-2:
+    container_name: node-2 
+    build:
+      dockerfile: Dockerfile
+      context: ./node-socket
+    volumes:
+      - ./node-socket/app:/app
+      - /app/node_modules
+    ports:
+      - 9230:9229         # use to debug      
+    networks:
+      - redis-cluster-env # redis-sentinel-env # redis-standalone-env
+      - nginx
+############### NODE-SOCKET #####################
+  node-3:
+    container_name: node-3
+    build:
+      dockerfile: Dockerfile
+      context: ./node-socket
+    volumes:
+      - ./node-socket/app:/app
+      - /app/node_modules
+    ports:
+      - 9231:9229         # use to debug      
+    networks:
+      - redis-cluster-env # redis-sentinel-env # redis-standalone-env
+      - nginx
+networks:
+  redis-cluster-env: # redis-sentinel-env # redis-standalone-env
+    external: true     
+  nginx:

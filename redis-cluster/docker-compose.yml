@@ -1,0 +1,73 @@
+#####################################################
+### A simple docker-compose to create a redis testing environment.
+### 4 containers :
+### - 1 redis used in standalone
+### - 3 redis used to build the cluster
+#####################################################
+version: "3.5"
+services:
+############### REDIS CLUSTER #########################
+  redis-1:
+    container_name: redis-1
+    build:
+      dockerfile: Dockerfile
+      context: ./cluster
+    image: redis-cluster
+    labels: 
+      role: redis-cluster
+    networks:
+      - redis-cluster-env      
+  redis-2:
+    container_name: redis-2
+    build:
+      dockerfile: Dockerfile
+      context: ./cluster
+    image: redis-cluster
+    labels: 
+      role: redis-cluster
+    networks:
+      - redis-cluster-env      
+  redis-3:
+    container_name: redis-3  
+    build:
+      dockerfile: Dockerfile
+      context: ./cluster
+    image: redis-cluster
+    labels: 
+      role: redis-cluster
+    networks:
+      - redis-cluster-env   
+  redis-4:
+    container_name: redis-4
+    build:
+      dockerfile: Dockerfile
+      context: ./cluster
+    image: redis-cluster
+    labels: 
+      role: redis-cluster
+    networks:
+      - redis-cluster-env      
+  redis-5:
+    container_name: redis-5
+    build:
+      dockerfile: Dockerfile
+      context: ./cluster
+    image: redis-cluster
+    labels: 
+      role: redis-cluster
+    networks:
+      - redis-cluster-env      
+  redis-6:
+    container_name: redis-6
+    build:
+      dockerfile: Dockerfile
+      context: ./cluster
+    image: redis-cluster
+    labels: 
+      role: redis-cluster
+    networks:
+      - redis-cluster-env         
+networks:
+  redis-cluster-env:
+    name: redis-cluster-env
+    driver: bridge

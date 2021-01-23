@@ -1,0 +1,55 @@
+#####################################################
+### A simple docker-compose to create a redis testing environment.
+### 4 containers :
+### - 1 redis used in standalone
+### - 3 redis used to build the cluster
+#####################################################
+version: "3.5"
+services:
+############### REDIS MASTER #########################
+  redis-a:
+    container_name: redis-a
+    build:
+      dockerfile: Dockerfile
+      context: ./master   
+    networks:
+      - redis-sentinel-env
+############### REDIS SLAVE #########################
+  redis-b:
+    container_name: redis-b
+    build:
+      dockerfile: Dockerfile
+      context: ./slave
+    networks:
+      - redis-sentinel-env        
+############### REDIS SENTINEL #########################
+  redis-1:
+    container_name: redis-1
+    build:
+      dockerfile: Dockerfile
+      context: ./sentinel
+    image: redis-sentinel
+    labels: 
+      role: redis-sentinel
+    networks:
+      - redis-sentinel-env    
+  redis-2:
+    container_name: redis-2
+    build:
+      dockerfile: Dockerfile
+      context: ./sentinel
+    image: redis-sentinel
+    networks:
+      - redis-sentinel-env     
+  redis-3:
+    container_name: redis-3  
+    build:
+      dockerfile: Dockerfile
+      context: ./sentinel
+    image: redis-sentinel
+    networks:
+      - redis-sentinel-env
+networks:
+  redis-sentinel-env:
+    name: redis-sentinel-env
+    driver: bridge

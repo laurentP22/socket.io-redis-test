@@ -1,0 +1,19 @@
+{
+    "dependencies": {
+        "nodemon": "*",
+        "socket.io": "*",
+        "socket.io-redis": "^5.2.0",
+        "ioredis": "^4.14.0",
+        "redis": "*"
+    },
+    "devDependencies": {
+        "mocha": "^6.1.4",
+        "uuid": "*"
+    },
+    "scripts": {
+        "dev-original": "nodemon --legacy-watch index.js",
+        "dev": "nodemon --legacy-watch --inspect=0.0.0.0 index.js",
+        "start": "node index.js",
+        "test": "mocha ./tests"
+    }
+}

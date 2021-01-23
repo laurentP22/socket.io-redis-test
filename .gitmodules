@@ -1,0 +1,3 @@
+[submodule "node-socket/app/socket.io-redis"]
+	path = node-socket/app/socket.io-redis
+	url = https://github.com/laurentP22/socket.io-redis.git
